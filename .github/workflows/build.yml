@@ -1,0 +1,53 @@
+name: task2
+
+on:
+  push:
+    branches:
+      - feature/develop/task2
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies for Python
+      run: |
+        pip install -r python_project/requirements.txt
+
+    - name: Install PlatformIO
+      run: |
+        python -m pip install --upgrade pip
+        pip install platformio
+
+    - name: Install ESP32 dependencies
+      run: platformio lib install
+      working-directory: ./src
+
+    - name: Build ESP32 firmware
+      run: platformio run --target build
+      working-directory: ./src
+
+    - name: Upload firmware to ESP32 (optional)
+      run: platformio run --target upload
+      working-directory: ./src
+
+    - name: Run Python tests
+      run: pytest python_project/tests/
+      working-directory: python_project
+
+    - name: Create build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: |
+          src/.pio/build/esp32dev/firmware.bin
+          python_project/tests/reports/         
