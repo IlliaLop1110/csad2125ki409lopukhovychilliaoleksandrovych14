@@ -9,8 +9,12 @@ if "%PORT%"=="" (
 
 where platformio >nul 2>nul
 if errorlevel 1 (
-    echo PlatformIO is not installed. Please install it before running.
-    exit /b 1
+    echo PlatformIO is not installed. Installing PlatformIO...
+    pip install platformio
+    if errorlevel 1 (
+        echo Failed to install PlatformIO. Please install it manually.
+        exit /b 1
+    )
 )
 
 echo Installing Python dependencies...
