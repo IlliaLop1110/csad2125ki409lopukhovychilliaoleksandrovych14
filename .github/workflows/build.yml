@@ -40,7 +40,6 @@ jobs:
 
     - name: Run Python tests
       run: pytest python_project/tests/
-      working-directory: python_project
 
     - name: Create build artifacts
       uses: actions/upload-artifact@v3
