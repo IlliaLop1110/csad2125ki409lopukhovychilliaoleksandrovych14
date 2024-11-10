@@ -35,8 +35,11 @@ jobs:
     - name: Build ESP32 firmware
       run: platformio run
 
+    - name: Create reports directory
+      run: mkdir -p python_project/tests/reports
+
     - name: Run Python tests
-      run: pytest python_project/tests/
+      run: pytest python_project/tests/ --junitxml=python_project/tests/reports/results.xml
 
     - name: Create build artifacts
       uses: actions/upload-artifact@v3
