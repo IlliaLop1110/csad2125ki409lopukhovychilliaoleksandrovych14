@@ -39,7 +39,7 @@ jobs:
     #  run: platformio run
 
     - name: Run Python tests
-      run: pytest python_project/tests/
+      run: pytest -s python_project/tests/
 
     - name: Create build artifacts
       uses: actions/upload-artifact@v3
