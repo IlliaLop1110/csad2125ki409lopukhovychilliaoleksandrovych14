@@ -35,9 +35,8 @@ jobs:
     - name: Build ESP32 firmware
       run: platformio run
 
-    - name: Upload firmware to ESP32 (optional)
-      run: platformio run
-      working-directory: ./src
+    #- name: Upload firmware to ESP32 (optional)
+    #  run: platformio run
 
     - name: Run Python tests
       run: pytest python_project/tests/
