@@ -1,10 +1,9 @@
 import serial
 import time
 
-port = input("Enter the serial port (e.g., /dev/ttyUSB0 or COM3): ")
-
-ser = serial.Serial(port, 115200, timeout=1)
-time.sleep(2)
+def setup_serial_port():
+    port = input("Enter the serial port (e.g., /dev/ttyUSB0 or COM3): ")
+    return serial.Serial(port, 115200, timeout=1)
 
 def send_message(message, ser):
     ser.write((message + '\n').encode())
@@ -15,12 +14,14 @@ def receive_message(ser):
         print(received)
     return received
 
-try:
-    while True:
-        user_message = input("Message to server: ")
-        send_message(user_message, ser)
-        receive_message(ser)
-except KeyboardInterrupt:
-    print("Exit!")
-finally:
-    ser.close()
+if __name__ == "__main__":
+    ser = setup_serial_port()
+    try:
+        while True:
+            user_message = input("Message to server: ")
+            send_message(user_message, ser)
+            receive_message(ser)
+    except KeyboardInterrupt:
+        print("Exit!")
+    finally:
+        ser.close()
