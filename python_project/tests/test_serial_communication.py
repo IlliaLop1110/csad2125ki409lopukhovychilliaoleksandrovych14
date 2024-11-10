@@ -6,7 +6,6 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from main import send_message, receive_message
 
-
 def test_send_message():
     mock_serial = MagicMock(spec=serial.Serial)
     send_message("Hello", mock_serial)
@@ -31,3 +30,4 @@ def test_serial_port(mock_input):
     port = 'COM3'
     ser = mock_serial
     assert ser.portstr == port
+
