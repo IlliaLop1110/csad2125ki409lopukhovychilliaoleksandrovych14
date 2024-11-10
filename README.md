@@ -14,9 +14,11 @@ Before building and running the project, make sure you have the following instal
 - pip (Python package manager)
 
 1. Clone the repository:
+
 ```git clone https://github.com/IlliaLop1110/csad2125ki409lopukhovychilliaoleksandrovych14.git```
 
 ```cd csad2125ki409lopukhovychilliaoleksandrovych14```
+
 2. If you're using Windows, run the ci-script.bat:
 ```ci-script.bat```
 3. The script will prompt you to enter the serial port of the ESP32 device:
