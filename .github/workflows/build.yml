@@ -30,7 +30,7 @@ jobs:
 
     - name: Install ESP32 dependencies
       run: platformio lib install
-      working-directory: $GITHUB_WORKSPACE
+      working-directory: ./src
 
     - name: Build ESP32 firmware
       run: platformio run --target build
@@ -38,7 +38,7 @@ jobs:
 
     - name: Upload firmware to ESP32 (optional)
       run: platformio run --target upload
-      working-directory: $GITHUB_WORKSPACE
+      working-directory: ./src
 
     - name: Run Python tests
       run: pytest python_project/tests/
