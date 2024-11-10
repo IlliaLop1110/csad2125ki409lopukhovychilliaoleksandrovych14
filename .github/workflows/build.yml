@@ -35,9 +35,6 @@ jobs:
     - name: Build ESP32 firmware
       run: platformio run
 
-    #- name: Upload firmware to ESP32 (optional)
-    #  run: platformio run
-
     - name: Run Python tests
       run: pytest python_project/tests/
 
@@ -46,5 +43,5 @@ jobs:
       with:
         name: build-artifacts
         path: |
-          src/.pio/build/esp32dev/firmware.bin
-          python_project/tests/reports/         
+          .pio/build/esp32dev/firmware.bin
+          python_project/tests/reports/

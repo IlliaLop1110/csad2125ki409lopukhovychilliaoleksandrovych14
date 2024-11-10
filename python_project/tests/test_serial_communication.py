@@ -24,15 +24,10 @@ def test_receive_empty_message():
     result = receive_message(mock_serial)
     assert result == ""
 
-@patch('builtins.input', return_value='COM3')  # Мокінг input для тестів
+@patch('builtins.input', return_value='COM3')
 def test_serial_port(mock_input):
     mock_serial = MagicMock(spec=serial.Serial)
-    
-    # Мокінг атрибута portstr
-    mock_serial.portstr = 'COM3'  # Визначаємо значення атрибута portstr
-    
+    mock_serial.portstr = 'COM3'
     port = 'COM3'
     ser = mock_serial
-    
-    # Тестуємо значення
     assert ser.portstr == port
