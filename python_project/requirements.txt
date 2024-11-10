@@ -1,5 +1,2 @@
 serial
 pytest
-unittest
-sys
-os
