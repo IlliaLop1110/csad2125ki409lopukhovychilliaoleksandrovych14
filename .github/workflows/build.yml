@@ -1,0 +1,26 @@
+name: task2
+
+on:
+  push:
+    branches:
+      - feature/develop/task2
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Run CI Script
+      env:
+        PORT: COM3
+      run: ./ci/ci-script.bat
+      
