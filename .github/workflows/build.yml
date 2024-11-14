@@ -23,4 +23,11 @@ jobs:
       env:
         PORT: COM3
       run: ./ci/ci-script.bat
-      
+
+    - name: Upload binaries and test reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: |
+          .pio/build/esp32dev/firmware.bin
+          python_project/tests/reports/results.xml
