@@ -4,14 +4,26 @@
 This repository is intended for completing assignments for the course “Computer systems automated design”.
 
 # Task details:
-Initiate GIT repository.
+Create a simple communication schema SW(client) <-> UART <-> HW(server).
 
-# Sudent number and details from Table 1. Tasks by students:
-**Student number:** 14
-**Game:** rock paper scissors
-**Config format:** JSON
+# How to build and run project:
+Before building and running the project, make sure you have the following installed:
 
-# Details about technology, program language, and HW that will be used in next tasks:
-**Programming language:** C, Python
-**Technology:** Git, GitHub, CI/CD
-**Hardware**: ESP32
+- [PlatformIO](https://platformio.org/install)
+- Python (preferably 3.8 or newer)
+- pip (Python package manager)
+
+1. Clone the repository:
+
+```git clone --single-branch --branch feature/develop/task2 https://github.com/IlliaLop1110/csad2125ki409lopukhovychilliaoleksandrovych14.git```
+
+```cd csad2125ki409lopukhovychilliaoleksandrovych14```
+
+2. If you're using Windows, run the ci-script.bat:
+
+```ci-script.bat```
+
+3. The script will prompt you to enter the serial port of the ESP32 device:
+
+# Version
+v1.0
