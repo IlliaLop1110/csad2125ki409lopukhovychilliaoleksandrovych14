@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 name: task3
+=======
+name: task2
+>>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
 
 on:
   push:
     branches:
+<<<<<<< HEAD
       - feature/develop/task3
+=======
+      - feature/develop/task2
+>>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
   pull_request:
 
 jobs:
@@ -19,15 +27,42 @@ jobs:
       with:
         python-version: '3.x'
 
+<<<<<<< HEAD
     - name: Run CI Script
       env:
         PORT: COM3
       run: ./ci-script.bat
 
     - name: Upload binaries and test reports
+=======
+    - name: Install dependencies for Python
+      run: |
+        pip install -r python_project/requirements.txt
+
+    - name: Install PlatformIO
+      run: |
+        python -m pip install --upgrade pip
+        pip install platformio
+
+    - name: Install ESP32 dependencies
+      run: platformio lib install
+      working-directory: ./src
+
+    - name: Build ESP32 firmware
+      run: platformio run
+
+    - name: Run Python tests
+      run: pytest python_project/tests/ --junitxml=python_project/tests/reports/results.xml
+
+    - name: Create build artifacts
+>>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
       uses: actions/upload-artifact@v3
       with:
         name: build-artifacts
         path: |
           .pio/build/esp32dev/firmware.bin
+<<<<<<< HEAD
           python_project/tests/reports/results.xml
+=======
+          python_project/tests/reports/
+>>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
