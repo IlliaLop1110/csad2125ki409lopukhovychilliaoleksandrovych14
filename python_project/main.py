@@ -8,6 +8,11 @@ CONFIG_FILE = 'config/game_config.json'
 
 
 def setup_serial_port():
+    """!
+    @brief Sets up the serial port for communication.
+    @details Prompts the user to input the serial port name and initializes a serial connection.
+    @return A configured serial.Serial object.
+    """
     try:
         port = input("Enter the serial port (e.g., /dev/ttyUSB0 or COM3): ")
         return serial.Serial(port, 9600, timeout=1)
@@ -17,6 +22,11 @@ def setup_serial_port():
 
 
 def send_message(message, ser):
+    """!
+    @brief Sends a message over the serial port.
+    @param message The message string to send.
+    @param ser The serial.Serial object for communication.
+    """
     try:
         ser.write((message + '\n').encode())
     except serial.SerialException as e:
@@ -24,6 +34,11 @@ def send_message(message, ser):
 
 
 def receive_message(ser):
+    """!
+    @brief Receives a message from the serial port.
+    @param ser The serial.Serial object for communication.
+    @return The received message as a string, or None if no message is received.
+    """
     try:
         received = ser.readline().decode('utf-8', errors='ignore').strip()
         if received:
@@ -35,6 +50,12 @@ def receive_message(ser):
 
 
 def receive_multiple_messages(ser, count):
+    """!
+    @brief Receives multiple messages from the serial port.
+    @param ser The serial.Serial object for communication.
+    @param count The number of messages to receive.
+    @return A list of received messages.
+    """
     messages = []
     for _ in range(count):
         message = receive_message(ser)
@@ -44,6 +65,11 @@ def receive_multiple_messages(ser, count):
 
 
 def user_input_thread(ser):
+    """!
+    @brief Handles user input in a separate thread.
+    @details Reads commands from the user, processes them, and sends them to the serial port.
+    @param ser The serial.Serial object for communication.
+    """
     global can_input
     while True:
         if can_input:
@@ -63,6 +89,10 @@ def user_input_thread(ser):
 
 
 def monitor_incoming_messages(ser):
+    """!
+    @brief Monitors incoming messages from the serial port in a separate thread.
+    @param ser The serial.Serial object for communication.
+    """
     global can_input
     global last_received_time
     while not exit_program:
@@ -74,6 +104,10 @@ def monitor_incoming_messages(ser):
 
 
 def save_game_config(message):
+    """!
+    @brief Saves game configuration to a file.
+    @param message The user input containing game mode details.
+    """
     config = {
         "gameMode": 0,
         "playerChoices1": "Rock",
@@ -92,7 +126,13 @@ def save_game_config(message):
     except Exception as e:
         print(f"Error saving configuration: {e}")
 
+
 def load_game_config(file_path, ser):
+    """!
+    @brief Loads game configuration from a file and sends it over the serial port.
+    @param file_path The path to the configuration file.
+    @param ser The serial.Serial object for communication.
+    """
     try:
         if os.path.exists(file_path):
             with open(file_path, 'r') as f:
@@ -125,8 +165,10 @@ def load_game_config(file_path, ser):
         print(f"Error loading configuration: {e}")
 
 
-
 if __name__ == "__main__":
+    """!
+    @brief Main function to initialize serial communication and handle threads.
+    """
     ser = setup_serial_port()
     can_input = True
     exit_program = False

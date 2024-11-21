@@ -1,0 +1,276 @@
+\doxysection{src/task3.ino File Reference}
+\hypertarget{task3_8ino}{}\label{task3_8ino}\index{src/task3.ino@{src/task3.ino}}
+{\ttfamily \#include $<$Arduino.\+h$>$}\newline
+{\ttfamily \#include $<$Arduino\+Json.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structGameConfig}{Game\+Config}}
+\begin{DoxyCompactList}\small\item\em Represents the game configuration structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{task3_8ino_ac1ade55623535db27f18b784d04aaa08}{save\+Config}} (const \mbox{\hyperlink{structGameConfig}{Game\+Config}} \&config)
+\begin{DoxyCompactList}\small\item\em Saves the game configuration to JSON format. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{task3_8ino_aeca8d5875a521ac165eb28d30e6238e2}{load\+String\+Config}} (Json\+Document \&doc, const char \texorpdfstring{$\ast$}{*}key, String \&value)
+\begin{DoxyCompactList}\small\item\em Loads a string configuration value from a JSON document. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{task3_8ino_adfd7c9da86b83da79c4cedd2b3ff6332}{load\+Config}} (String json\+Config)
+\begin{DoxyCompactList}\small\item\em Loads the game configuration from a JSON string. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{task3_8ino_abfd998c018b41d873e2ee32700685a89}{generate\+AIChoice}} ()
+\begin{DoxyCompactList}\small\item\em Generates a random AI choice for the game. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{task3_8ino_ab64817c6db9cc5df3997c4de00c0ec05}{determine\+Winner}} (String player1, String player2)
+\begin{DoxyCompactList}\small\item\em Determines the winner between two players. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{task3_8ino_a069ff21ffa873ae968977f1f61f39e6c}{is\+Valid\+Move}} (String move)
+\begin{DoxyCompactList}\small\item\em Validates if a given move is valid. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{task3_8ino_a5901170f346e94ad9e3f88c0c7275522}{initialize\+Game}} ()
+\begin{DoxyCompactList}\small\item\em Initializes a new game. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{task3_8ino_aac36e550c284973980abe78dd1cbb2cf}{process\+Human\+Vs\+AI}} (String human\+Choice)
+\begin{DoxyCompactList}\small\item\em Processes a human vs AI game round. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{task3_8ino_a79d8fae70136ae34c18d5f117203af8a}{process\+AIvs\+AI}} ()
+\begin{DoxyCompactList}\small\item\em Simulates an AI vs AI game round. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{task3_8ino_af32d2ef7a2cc5416f30fa53034a69dd1}{process\+Move}} (String received\+Message)
+\begin{DoxyCompactList}\small\item\em Processes a move based on the game mode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{task3_8ino_ad6612373c399e64f8fb4ecc6a3d12b5c}{handle\+Game\+Mode}} (String received\+Message)
+\begin{DoxyCompactList}\small\item\em Handles changes to the game mode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{task3_8ino_a420bd28dcaaa115f46bc6aef272c75f1}{process\+Received\+Message}} (String received\+Message)
+\begin{DoxyCompactList}\small\item\em Processes a received message and determines the appropriate action. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{task3_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the serial communication and random seed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{task3_8ino_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\begin{DoxyCompactList}\small\item\em Main loop to handle serial communication and game processing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{task3_8ino_a4361aa42f2e08e5ceb49425b6675f7bf}{game\+Active}} = false
+\item 
+String \mbox{\hyperlink{task3_8ino_afabb3572219a0d60b97b155e1e18a480}{player\+Choices}} \mbox{[}3\mbox{]} = \{"{}Rock"{}, "{}Paper"{}, "{}Scissors"{}\}
+\item 
+int \mbox{\hyperlink{task3_8ino_aa535a3201e6b21c12dc05f4fa9a3e7c2}{game\+Mode}} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{task3_8ino_ab64817c6db9cc5df3997c4de00c0ec05}\index{task3.ino@{task3.ino}!determineWinner@{determineWinner}}
+\index{determineWinner@{determineWinner}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{determineWinner()}{determineWinner()}}
+{\footnotesize\ttfamily \label{task3_8ino_ab64817c6db9cc5df3997c4de00c0ec05} 
+String determine\+Winner (\begin{DoxyParamCaption}\item[{String}]{player1}{, }\item[{String}]{player2}{}\end{DoxyParamCaption})}
+
+
+
+Determines the winner between two players. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player1} & The choice of player 1. \\
+\hline
+{\em player2} & The choice of player 2. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string indicating the winner or if it was a draw. 
+\end{DoxyReturn}
+\Hypertarget{task3_8ino_abfd998c018b41d873e2ee32700685a89}\index{task3.ino@{task3.ino}!generateAIChoice@{generateAIChoice}}
+\index{generateAIChoice@{generateAIChoice}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{generateAIChoice()}{generateAIChoice()}}
+{\footnotesize\ttfamily \label{task3_8ino_abfd998c018b41d873e2ee32700685a89} 
+String generate\+AIChoice (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Generates a random AI choice for the game. 
+
+\begin{DoxyReturn}{Returns}
+A string representing the AI\textquotesingle{}s choice (Rock, Paper, or Scissors). 
+\end{DoxyReturn}
+\Hypertarget{task3_8ino_ad6612373c399e64f8fb4ecc6a3d12b5c}\index{task3.ino@{task3.ino}!handleGameMode@{handleGameMode}}
+\index{handleGameMode@{handleGameMode}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{handleGameMode()}{handleGameMode()}}
+{\footnotesize\ttfamily \label{task3_8ino_ad6612373c399e64f8fb4ecc6a3d12b5c} 
+void handle\+Game\+Mode (\begin{DoxyParamCaption}\item[{String}]{received\+Message}{}\end{DoxyParamCaption})}
+
+
+
+Handles changes to the game mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em received\+Message} & The message specifying the new game mode. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{task3_8ino_a5901170f346e94ad9e3f88c0c7275522}\index{task3.ino@{task3.ino}!initializeGame@{initializeGame}}
+\index{initializeGame@{initializeGame}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{initializeGame()}{initializeGame()}}
+{\footnotesize\ttfamily \label{task3_8ino_a5901170f346e94ad9e3f88c0c7275522} 
+void initialize\+Game (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes a new game. 
+
+Sets the game as active and prompts the player to start. \Hypertarget{task3_8ino_a069ff21ffa873ae968977f1f61f39e6c}\index{task3.ino@{task3.ino}!isValidMove@{isValidMove}}
+\index{isValidMove@{isValidMove}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{isValidMove()}{isValidMove()}}
+{\footnotesize\ttfamily \label{task3_8ino_a069ff21ffa873ae968977f1f61f39e6c} 
+bool is\+Valid\+Move (\begin{DoxyParamCaption}\item[{String}]{move}{}\end{DoxyParamCaption})}
+
+
+
+Validates if a given move is valid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em move} & The move to validate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the move is valid; otherwise, false. 
+\end{DoxyReturn}
+\Hypertarget{task3_8ino_adfd7c9da86b83da79c4cedd2b3ff6332}\index{task3.ino@{task3.ino}!loadConfig@{loadConfig}}
+\index{loadConfig@{loadConfig}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{loadConfig()}{loadConfig()}}
+{\footnotesize\ttfamily \label{task3_8ino_adfd7c9da86b83da79c4cedd2b3ff6332} 
+void load\+Config (\begin{DoxyParamCaption}\item[{String}]{json\+Config}{}\end{DoxyParamCaption})}
+
+
+
+Loads the game configuration from a JSON string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em json\+Config} & The JSON string containing the configuration. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{task3_8ino_aeca8d5875a521ac165eb28d30e6238e2}\index{task3.ino@{task3.ino}!loadStringConfig@{loadStringConfig}}
+\index{loadStringConfig@{loadStringConfig}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{loadStringConfig()}{loadStringConfig()}}
+{\footnotesize\ttfamily \label{task3_8ino_aeca8d5875a521ac165eb28d30e6238e2} 
+bool load\+String\+Config (\begin{DoxyParamCaption}\item[{Json\+Document \&}]{doc}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{key}{, }\item[{String \&}]{value}{}\end{DoxyParamCaption})}
+
+
+
+Loads a string configuration value from a JSON document. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em doc} & The JSON document containing the configuration. \\
+\hline
+{\em key} & The key for the value to load. \\
+\hline
+{\em value} & The string variable to store the loaded value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the key was found and valid; otherwise, false. 
+\end{DoxyReturn}
+\Hypertarget{task3_8ino_afe461d27b9c48d5921c00d521181f12f}\index{task3.ino@{task3.ino}!loop@{loop}}
+\index{loop@{loop}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily \label{task3_8ino_afe461d27b9c48d5921c00d521181f12f} 
+void loop (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Main loop to handle serial communication and game processing. 
+
+\Hypertarget{task3_8ino_a79d8fae70136ae34c18d5f117203af8a}\index{task3.ino@{task3.ino}!processAIvsAI@{processAIvsAI}}
+\index{processAIvsAI@{processAIvsAI}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{processAIvsAI()}{processAIvsAI()}}
+{\footnotesize\ttfamily \label{task3_8ino_a79d8fae70136ae34c18d5f117203af8a} 
+void process\+AIvs\+AI (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Simulates an AI vs AI game round. 
+
+\Hypertarget{task3_8ino_aac36e550c284973980abe78dd1cbb2cf}\index{task3.ino@{task3.ino}!processHumanVsAI@{processHumanVsAI}}
+\index{processHumanVsAI@{processHumanVsAI}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{processHumanVsAI()}{processHumanVsAI()}}
+{\footnotesize\ttfamily \label{task3_8ino_aac36e550c284973980abe78dd1cbb2cf} 
+void process\+Human\+Vs\+AI (\begin{DoxyParamCaption}\item[{String}]{human\+Choice}{}\end{DoxyParamCaption})}
+
+
+
+Processes a human vs AI game round. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em human\+Choice} & The human player\textquotesingle{}s move. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{task3_8ino_af32d2ef7a2cc5416f30fa53034a69dd1}\index{task3.ino@{task3.ino}!processMove@{processMove}}
+\index{processMove@{processMove}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{processMove()}{processMove()}}
+{\footnotesize\ttfamily \label{task3_8ino_af32d2ef7a2cc5416f30fa53034a69dd1} 
+void process\+Move (\begin{DoxyParamCaption}\item[{String}]{received\+Message}{}\end{DoxyParamCaption})}
+
+
+
+Processes a move based on the game mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em received\+Message} & The received move or command. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{task3_8ino_a420bd28dcaaa115f46bc6aef272c75f1}\index{task3.ino@{task3.ino}!processReceivedMessage@{processReceivedMessage}}
+\index{processReceivedMessage@{processReceivedMessage}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{processReceivedMessage()}{processReceivedMessage()}}
+{\footnotesize\ttfamily \label{task3_8ino_a420bd28dcaaa115f46bc6aef272c75f1} 
+void process\+Received\+Message (\begin{DoxyParamCaption}\item[{String}]{received\+Message}{}\end{DoxyParamCaption})}
+
+
+
+Processes a received message and determines the appropriate action. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em received\+Message} & The received message or command. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{task3_8ino_ac1ade55623535db27f18b784d04aaa08}\index{task3.ino@{task3.ino}!saveConfig@{saveConfig}}
+\index{saveConfig@{saveConfig}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{saveConfig()}{saveConfig()}}
+{\footnotesize\ttfamily \label{task3_8ino_ac1ade55623535db27f18b784d04aaa08} 
+void save\+Config (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structGameConfig}{Game\+Config}} \&}]{config}{}\end{DoxyParamCaption})}
+
+
+
+Saves the game configuration to JSON format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em config} & The game configuration to be saved. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{task3_8ino_a4fc01d736fe50cf5b977f755b675f11d}\index{task3.ino@{task3.ino}!setup@{setup}}
+\index{setup@{setup}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily \label{task3_8ino_a4fc01d736fe50cf5b977f755b675f11d} 
+void setup (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes the serial communication and random seed. 
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{task3_8ino_a4361aa42f2e08e5ceb49425b6675f7bf}\index{task3.ino@{task3.ino}!gameActive@{gameActive}}
+\index{gameActive@{gameActive}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{gameActive}{gameActive}}
+{\footnotesize\ttfamily \label{task3_8ino_a4361aa42f2e08e5ceb49425b6675f7bf} 
+bool game\+Active = false}
+
+\Hypertarget{task3_8ino_aa535a3201e6b21c12dc05f4fa9a3e7c2}\index{task3.ino@{task3.ino}!gameMode@{gameMode}}
+\index{gameMode@{gameMode}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{gameMode}{gameMode}}
+{\footnotesize\ttfamily \label{task3_8ino_aa535a3201e6b21c12dc05f4fa9a3e7c2} 
+int game\+Mode = 0}
+
+\Hypertarget{task3_8ino_afabb3572219a0d60b97b155e1e18a480}\index{task3.ino@{task3.ino}!playerChoices@{playerChoices}}
+\index{playerChoices@{playerChoices}!task3.ino@{task3.ino}}
+\doxysubsubsection{\texorpdfstring{playerChoices}{playerChoices}}
+{\footnotesize\ttfamily \label{task3_8ino_afabb3572219a0d60b97b155e1e18a480} 
+String player\+Choices\mbox{[}3\mbox{]} = \{"{}Rock"{}, "{}Paper"{}, "{}Scissors"{}\}}
+
