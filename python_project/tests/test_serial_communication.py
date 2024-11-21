@@ -4,12 +4,8 @@ import serial
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-<<<<<<< HEAD
 from main import send_message, receive_message, save_game_config, load_game_config
 
-=======
-from main import send_message, receive_message
->>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
 
 def test_send_message():
     mock_serial = MagicMock(spec=serial.Serial)
@@ -35,8 +31,4 @@ def test_serial_port(mock_input):
     port = 'COM3'
     ser = mock_serial
     assert ser.portstr == port
-<<<<<<< HEAD
     
-=======
-
->>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d

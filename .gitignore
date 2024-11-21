@@ -1,6 +1,2 @@
 .pio/
-<<<<<<< HEAD
 .pytest_cache/
-=======
-ci-script_linux.sh
->>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d

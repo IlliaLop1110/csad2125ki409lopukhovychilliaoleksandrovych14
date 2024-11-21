@@ -1,6 +1,5 @@
 @echo off
 
-<<<<<<< HEAD
 if "%PORT%"=="COM9" (
     if "%~1"=="" (
         echo No port specified. Exiting.
@@ -8,13 +7,6 @@ if "%PORT%"=="COM9" (
     ) else (
         set PORT=%~1
     )
-=======
-set /p PORT="Enter the serial port (e.g., COM3): "
-
-if "%PORT%"=="" (
-    echo No port specified. Exiting.
-    exit /b 1
->>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
 )
 
 where platformio >nul 2>nul
@@ -30,7 +22,6 @@ if errorlevel 1 (
 echo Installing Python dependencies...
 pip install -r python_project\requirements.txt
 
-<<<<<<< HEAD
 echo Installing PlatformIO libraries...
 platformio lib install "ArduinoJson"
 if errorlevel 1 (
@@ -38,8 +29,6 @@ if errorlevel 1 (
     exit /b 1
 )
 
-=======
->>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
 echo Building firmware...
 platformio run
 

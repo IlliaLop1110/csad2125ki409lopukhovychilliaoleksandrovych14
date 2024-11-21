@@ -1,28 +1,20 @@
 import serial
 import time
-<<<<<<< HEAD
 import threading
 import json
 import os
 
 CONFIG_FILE = 'config/game_config.json'
 
-=======
->>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
 
 def setup_serial_port():
     try:
         port = input("Enter the serial port (e.g., /dev/ttyUSB0 or COM3): ")
-<<<<<<< HEAD
         return serial.Serial(port, 9600, timeout=1)
-=======
-        return serial.Serial(port, 115200, timeout=1)
->>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
     except serial.SerialException as e:
         print(f"Error: {e}")
         exit(1)
 
-<<<<<<< HEAD
 
 def send_message(message, ser):
     try:
@@ -31,30 +23,16 @@ def send_message(message, ser):
         print(f"Error sending message: {e}")
 
 
-=======
-def send_message(message, ser):
-    try:
-        ser.write((message + '\n').encode())
-        print(f"Sent: {message}")
-    except serial.SerialException as e:
-        print(f"Error sending message: {e}")
-
->>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
 def receive_message(ser):
     try:
         received = ser.readline().decode('utf-8', errors='ignore').strip()
         if received:
-<<<<<<< HEAD
             print(received)
-=======
-            print(f"Received: {received}")
->>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
         return received
     except serial.SerialException as e:
         print(f"Error receiving message: {e}")
         return None
 
-<<<<<<< HEAD
 
 def receive_multiple_messages(ser, count):
     messages = []
@@ -163,18 +141,6 @@ if __name__ == "__main__":
                 pass
             else:
                 time.sleep(0.1)
-=======
-if __name__ == "__main__":
-    ser = setup_serial_port()
-    try:
-        while True:
-            user_message = input("Message to server: ")
-            if user_message.lower() == 'exit':
-                print("Exiting...")
-                break
-            send_message(user_message, ser)
-            receive_message(ser)
->>>>>>> a02f3e4adcc3335a97dc2c1d5a2d9201f39a815d
     except KeyboardInterrupt:
         print("Exit!")
     finally:
