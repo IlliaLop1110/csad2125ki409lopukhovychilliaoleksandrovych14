@@ -1,9 +1,9 @@
-name: task2
+name: task3
 
 on:
   push:
     branches:
-      - feature/develop/task2
+      - feature/develop/task3
   pull_request:
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
     - name: Run CI Script
       env:
         PORT: COM3
-      run: ./ci/ci-script.bat
+      run: ./ci-script.bat
 
     - name: Upload binaries and test reports
       uses: actions/upload-artifact@v3
