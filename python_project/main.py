@@ -49,21 +49,6 @@ def receive_message(ser):
         return None
 
 
-def receive_multiple_messages(ser, count):
-    """!
-    @brief Receives multiple messages from the serial port.
-    @param ser The serial.Serial object for communication.
-    @param count The number of messages to receive.
-    @return A list of received messages.
-    """
-    messages = []
-    for _ in range(count):
-        message = receive_message(ser)
-        if message:
-            messages.append(message)
-    return messages
-
-
 def user_input_thread(ser):
     """!
     @brief Handles user input in a separate thread.
@@ -79,13 +64,11 @@ def user_input_thread(ser):
                 global exit_program
                 exit_program = True
                 break
-            elif user_message.lower().startswith('save'):
-                save_game_config(user_message)
             elif user_message.lower().startswith('load'):
                 file_path = input("Enter the path to the configuration file: ")
                 load_game_config(file_path, ser)
             send_message(user_message, ser)
-            can_input = False 
+            can_input = False
 
 
 def monitor_incoming_messages(ser):
@@ -98,30 +81,23 @@ def monitor_incoming_messages(ser):
     while not exit_program:
         received = receive_message(ser)
         if received:
-            last_received_time = time.time() 
+            last_received_time = time.time()
             if not can_input:
-                can_input = True  
+                can_input = True
+            if received.startswith("{"):
+                save_game_config(received)
 
 
 def save_game_config(message):
     """!
-    @brief Saves game configuration to a file.
-    @param message The user input containing game mode details.
+    @brief Saves the game configuration to a file.
+    @param message The configuration message to save.
+    @details This function saves the configuration message to a predefined file.
+    @exception Will print an error message if saving the configuration fails.
     """
-    config = {
-        "gameMode": 0,
-        "playerChoices1": "Rock",
-        "playerChoices2": "Paper",
-        "playerChoices3": "Scissors"
-    }
-
     try:
-        params = message.split()
-        if len(params) == 2 and params[1].isdigit():
-            config["gameMode"] = int(params[1])
-
         with open(CONFIG_FILE, 'w') as f:
-            json.dump(config, f, indent=4)
+            f.write(message)
         print(f"Configuration saved to {CONFIG_FILE}")
     except Exception as e:
         print(f"Error saving configuration: {e}")
@@ -129,47 +105,34 @@ def save_game_config(message):
 
 def load_game_config(file_path, ser):
     """!
-    @brief Loads game configuration from a file and sends it over the serial port.
-    @param file_path The path to the configuration file.
+    @brief Loads the game configuration from a file and sends it over serial.
+    @param file_path The path to the configuration file to load.
     @param ser The serial.Serial object for communication.
+    @details This function reads the content of the configuration file and sends it over the serial port.
+    @exception Will print an error message if the file cannot be loaded.
     """
     try:
         if os.path.exists(file_path):
             with open(file_path, 'r') as f:
-                config = json.load(f)
+                json_content = f.read()
 
-                game_mode = config.get("gameMode", 0)
-                player_choices = [
-                    config.get("playerChoices1", "Rock"),
-                    config.get("playerChoices2", "Paper"),
-                    config.get("playerChoices3", "Scissors")
-                ]
+            print("Loaded JSON content:")
+            print(json_content)
 
-                print(f"Game Mode: {game_mode}")
-                print(f"Player Choices: {player_choices}")
-
-                json_message = {
-                    "gameMode": game_mode,
-                    "playerChoices1": player_choices[0],
-                    "playerChoices2": player_choices[1],
-                    "playerChoices3": player_choices[2]
-                }
-
-                json_str = json.dumps(json_message)
-                print(json_str)
-
-                send_message(json_str, ser)
+            send_message(json_content, ser)
         else:
             print("Configuration file not found. Please provide a valid path.")
     except Exception as e:
         print(f"Error loading configuration: {e}")
 
 
-if __name__ == "__main__":
+def main():
     """!
     @brief Main function to initialize serial communication and handle threads.
+    @details This function sets up the serial communication, starts the threads for monitoring incoming messages and handling user input, and manages the program loop.
     """
     ser = setup_serial_port()
+
     can_input = True
     exit_program = False
     last_received_time = time.time()
@@ -189,3 +152,7 @@ if __name__ == "__main__":
         if ser.is_open:
             print("Closing serial port...")
             ser.close()
+
+
+if __name__ == "__main__":
+    main()
