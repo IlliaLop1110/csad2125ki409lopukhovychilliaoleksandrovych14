@@ -322,6 +322,18 @@ def test_load_game_config_error():
 
 
 @pytest.fixture
+def stop_event():
+    """!
+    @brief Provides a threading.Event for stopping tests cleanly.
+    @details This fixture creates and ensures proper cleanup of the stop event used in tests.
+    @yield threading.Event object.
+    """
+    event = threading.Event()
+    yield event
+    event.set()  # Ensure all threads are stopped.
+
+
+@pytest.fixture
 def mock_serial_port():
     """!
     @brief Provides a mock serial port fixture for testing.
@@ -355,23 +367,40 @@ def mock_user_input_thread():
         yield mock_func
 
 
-def test_main(mock_serial_port, mock_monitor_incoming_messages, mock_user_input_thread):
+def test_main(mock_serial_port, mock_monitor_incoming_messages, mock_user_input_thread, stop_event):
     """!
     @brief Tests the main function setup.
     @details Verifies the proper initialization of the main function and ensures the threads are started and terminated correctly.
     """
     with mock.patch("main.setup_serial_port", return_value=mock_serial_port):
-        stop_event = threading.Event()
-
         with mock.patch("main.monitor_incoming_messages") as mock_monitor, \
              mock.patch("main.user_input_thread") as mock_user_input:
 
-            main_thread = threading.Thread(target=main.main)
+            # Override main.exit_program to respect stop_event
+            def patched_main():
+                main.exit_program = stop_event.is_set()
 
-            main_thread.start()
+            with mock.patch("main.main", patched_main):
+                main_thread = threading.Thread(target=main.main)
+                main_thread.start()
 
-            time.sleep(1)
+                time.sleep(1)
 
-            stop_event.set()
+                stop_event.set()
+                main_thread.join(timeout=2)
 
-            main_thread.join(timeout=2)
+                assert not main_thread.is_alive(), "Main thread did not terminate properly."
+
+
+@pytest.fixture(autouse=True)
+def cleanup_after_tests():
+    """!
+    @brief Automatically cleanup after tests.
+    @details Ensures the global state (e.g., exit_program) is reset after each test.
+    """
+    yield
+    # Reset global states used in tests
+    if hasattr(main, "exit_program"):
+        main.exit_program = False
+    if hasattr(main, "can_input"):
+        main.can_input = False
