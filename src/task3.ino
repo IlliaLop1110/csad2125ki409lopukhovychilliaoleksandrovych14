@@ -200,7 +200,6 @@ void handleGameMode(String receivedMessage) {
   }
 
   GameConfig config = {gameMode, {playerChoices[0], playerChoices[1], playerChoices[2]}};
-  saveConfig(config);
 }
 
 /**
@@ -218,6 +217,9 @@ void processReceivedMessage(String receivedMessage) {
     }
   } else if (receivedMessage.startsWith("modes")) {
     handleGameMode(receivedMessage);
+  } else if (receivedMessage.startsWith("save")) {
+    GameConfig config = {gameMode, {playerChoices[0], playerChoices[1], playerChoices[2]}};
+    saveConfig(config);
   } else if (receivedMessage.startsWith("{")) {
     loadConfig(receivedMessage);
   } else if (gameActive) {
